@@ -37,6 +37,8 @@ func main() {
 				merge(counter)
 				counter--
 			// moving a block on field
+			} else {
+				drop()
 			}
 			fmt.Println(Field)
 		}
@@ -44,13 +46,31 @@ func main() {
 }
 
 func drop() {
-	
+	clean()
+	nowBlock.position.y ++
+	fmt.Println(nowBlock.position.y)
+	for i:=0; i<3; i++ {
+		for j:=0; j<3; j++ {
+			Field[nowBlock.position.y+i][nowBlock.position.x+j] = nowBlock.Block[i][j]
+		}
+	}
+}
+
+func clean() {
+	fmt.Println(nowBlock.position.y)
+	fmt.Println(nowBlock.position.x)
+
+	for i:=0; i<3; i++ {
+		for j:=0; j<3; j++ {
+			Field[nowBlock.position.y+i][nowBlock.position.x+j] = bg
+		}
+	}
 }
 
 func merge(counter int) {
 	for i := 0; i < 3; i++ {
-		Field[i][0] = nowBlock.Block[i][counter]
+		Field[0][i] = nowBlock.Block[counter][i]
 	}
-	nowBlock.position.x = -counter
-	nowBlock.position.y = 0
+	nowBlock.position.x = 0
+	nowBlock.position.y = -counter
 }

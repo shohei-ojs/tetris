@@ -5,20 +5,20 @@ import (
 )
 
 const (
-	wField = 16
-	hField = 24
+	wField = 14
+	hField = 16
 	bg = "*"
 	block = "#"
 )
 
-type field [wField][hField]string
+type field [hField][wField]string
 
 // Field ...
 var Field field 
 
 func (f *field)init() {
-	for i := 0; i< wField; i++ {
-		for j := 0; j<hField; j++ {
+	for i := 0; i< hField; i++ {
+		for j := 0; j<wField; j++ {
 			Field[i][j] = bg
 		}
 	}
@@ -26,8 +26,8 @@ func (f *field)init() {
 
 func (f field)String() string{
 	var str string
-	for i := 0; i<wField; i++ {
-		for j := 0; j<hField; j++ {
+	for i := 0; i<hField; i++ {
+		for j := 0; j<wField; j++ {
 		str += Field[i][j]
 		}
 		str += "\n"
