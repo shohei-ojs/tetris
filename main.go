@@ -17,6 +17,8 @@ var nowBlock struct {
 	position
 }
 
+var p = fmt.Println
+
 func main() {
 	// update every 1 seconds
 	tick := time.Tick(1000 * time.Millisecond)
@@ -34,7 +36,6 @@ func main() {
 				nowBlock.Block = CreateBlock()
 				moving = true
 			}
-			fmt.Println(counter)
 
 			if nowBlock.position.y >= 0 {
 				// clean()
@@ -47,6 +48,7 @@ func main() {
 				// moving a block on field
 			}
 			drop()
+			p(nowBlock.position.y, nowBlock.position.x, counter)
 			fmt.Println(Field)
 		}
 	}
@@ -56,20 +58,14 @@ func drop() {
 
 	nowBlock.position.y++
 	// clean()
-	fmt.Println(nowBlock.position.y, nowBlock.position.x)
-	if nowBlock.position.y >= 0 {
-		for i := 0; i < 4; i++ {
-			for j := 0; j < 4; j++ {
-				Field[nowBlock.position.y][nowBlock.position.x+j] = nowBlock.Block[i][j]
-			}
+	for i := abs(nowBlock.position.y); i < 4; i++ {
+		for j := 0; j < 4; j++ {
+			Field[nowBlock.position.y+i][nowBlock.position.x+j] = nowBlock.Block[i][j]
 		}
 	}
 }
 
 func clean() {
-	fmt.Println(nowBlock.position.y)
-	fmt.Println(nowBlock.position.x)
-
 	for i := 0; i < 4; i++ {
 		for j := 0; j < 4; j++ {
 			Field[nowBlock.position.y+i][nowBlock.position.x+j] = bg
@@ -94,4 +90,12 @@ func colide() bool {
 	}
 	underLine := Field[nowBlock.position.y+1]
 	return strings.Contains(strings.Join(underLine[int(nowBlock.position.x):int(nowBlock.position.x)+4], ""), block)
+}
+
+
+func abs(a int) int {
+	if a < 0 {
+		return  -1*a
+	}
+	return a
 }
