@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"fmt"
 	"strings"
 	"time"
@@ -43,6 +44,7 @@ func main() {
 			// if stopped a now block genarate a new block
 			if !moving {
 				nowBlock.Block = CreateBlock()
+				nowBlock.position.x = wField/2 - 2
 				moving = true
 			}
 
@@ -94,10 +96,11 @@ func drop() {
 func next() {
 	moving = false
 	counter = 3
+	b()
 }
 
 func clean() {
-	for i := 0; i < 4; i++ {
+	for i := abs(counter); i < 4; i++ {
 		for j := 0; j < 4; j++ {
 			Field[nowBlock.position.y+i][nowBlock.position.x+j] = bg
 		}
@@ -110,23 +113,28 @@ func update() {
 func shift() {
 	clean()
 	if direction == 1 {
-		nowBlock.position.x--
+		if nowBlock.position.x != 0 {
+			nowBlock.position.x--
+		}
 	} else {
-		nowBlock.position.x++
+		if nowBlock.position.x != wField-4 {
+			nowBlock.position.x++
+		}
 	}
-	for i := 0; i < 4; i++ {
+	for i := abs(counter); i < 4; i++ {
 		for j := 0; j < 4; j++ {
 			Field[nowBlock.position.y+i][nowBlock.position.x+j] = nowBlock.Block[i][j]
 		}
 	}
 }
 
+
+
 func merge() {
-	nowBlock.position.x = wField/2 - 2
-	nowBlock.position.y = -counter
 	for i := 0; i < 4; i++ {
 		Field[0][nowBlock.position.x+i] = nowBlock.Block[counter][i]
 	}
+	nowBlock.position.y = -counter
 }
 
 func colide() bool {
@@ -148,12 +156,31 @@ func abs(a int) int {
 	return a
 }
 
+func contains(s [wField]string, e string) bool {
+	for _, v := range s {
+		if e == v {
+			return true
+		}
+	}
+	return false
+}
+
+func b() {
+	for i := 0; i< 4; i++ {
+		if !contains(Field[nowBlock.position.y+i], "*"){
+			for j := range Field[nowBlock.position.y+i] {
+				Field[nowBlock.position.y+i][j] = bg
+			}
+		}
+	}
+}
+
 func control(){
 	switch ev := termbox.PollEvent(); ev.Type {
 		case termbox.EventKey:
 		switch ev.Key {
 			case termbox.KeyEsc:
-				panic(fmt.Sprintf("%s", "push Escape"))
+				log.Fatalln("End")
 			case termbox.KeyArrowRight:
 				fmt.Println("Right")
 				direction = 2

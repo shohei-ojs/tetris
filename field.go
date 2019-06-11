@@ -3,8 +3,8 @@ package main
 import ()
 
 const (
-	wField = 16
-	hField = 14
+	wField = 8
+	hField = 8
 	bg     = "*"
 	block  = "#"
 )
