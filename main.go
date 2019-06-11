@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	"github.com/nsf/termbox-go"
 )
 
 var moving = false
@@ -22,15 +24,21 @@ var nowBlock struct {
 var p = fmt.Printf
 
 func main() {
+	Field.init()
+	err := termbox.Init()
+	if err != nil {
+		panic(err)
+	}
+	defer termbox.Close()
 	// update every 1 seconds
 	tick := time.Tick(1000 * time.Millisecond)
-	Field.init()
 
-	// game loop
+
+	// main loop
 	for {
+		go control()
 		select {
 		case <-tick:
-
 			// if stopped a now block genarate a new block
 			if !moving {
 				nowBlock.Block = CreateBlock()
@@ -116,4 +124,22 @@ func abs(a int) int {
 		return  -a
 	}
 	return a
+}
+
+func control(){
+	switch ev := termbox.PollEvent(); ev.Type {
+		case termbox.EventKey:
+		switch ev.Key {
+			case termbox.KeyEsc:
+				panic(fmt.Sprintf("%s", "push Escape"))
+			case termbox.KeyArrowUp:
+				fmt.Println("UP")
+			case termbox.KeyArrowRight:
+				fmt.Println("Right")
+			case termbox.KeyArrowLeft:
+				fmt.Println("Left")
+			case termbox.KeyArrowDown:
+				fmt.Println("Down")
+		}
+	}
 }
