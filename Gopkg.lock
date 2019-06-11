@@ -17,20 +17,9 @@
   pruneopts = "UT"
   revision = "288510b9734e30e7966ec2f22b87c5f8e67345e3"
 
-[[projects]]
-  branch = "master"
-  digest = "1:59d8417bed34c76b8767308835b267be5e2a5fe5b5b497194ef7c9196ce4b7ab"
-  name = "golang.org/x/mobile"
-  packages = ["event/key"]
-  pruneopts = "UT"
-  revision = "32b2708ab17190067486adc3513cae8dc2a7e5a4"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = [
-    "github.com/nsf/termbox-go",
-    "golang.org/x/mobile/event/key",
-  ]
+  input-imports = ["github.com/nsf/termbox-go"]
   solver-name = "gps-cdcl"
   solver-version = 1

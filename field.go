@@ -4,7 +4,7 @@ import ()
 
 const (
 	wField = 16
-	hField = 8
+	hField = 14
 	bg     = "*"
 	block  = "#"
 )
