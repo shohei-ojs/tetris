@@ -171,6 +171,11 @@ func b() {
 			for j := range Field[nowBlock.position.y+i] {
 				Field[nowBlock.position.y+i][j] = bg
 			}
+			for j := nowBlock.position.y+i-1; j > 0; j-- {
+				for k := 0; k < wField; k++ {
+					Field[j+1][k] = Field[j][k]
+				}
+			}
 		}
 	}
 }
